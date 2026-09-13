@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parul University - SGPA Calculator</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --accent: #2563eb;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        input[type="number"] {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+
+        button {
+            width: 100%;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--accent);
+        }
+
+        .result-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            display: none;
+            text-align: center;
+        }
+
+        .result-box h2 {
+            margin: 0 0 10px 0;
+            color: var(--primary);
+        }
+
+        .sgpa-display {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .note {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>SGPA Calculator</h1>
+    <p class="subtitle">Enter your Mid-Sem and expected End-Sem marks to calculate your SGPA</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Credits</th>
+                <th>Mid-Sem (Out of 40)</th>
+                <th>End-Sem (Out of 60)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>DSA</strong></td>
+                <td>4</td>
+                <td><input type="number" id="mid-dsa" placeholder="0-40" min="0" max="40"></td>
+                <td><input type="number" id="end-dsa" placeholder="0-60" min="0" max="60"></td>
+            </tr>
+            <tr>
+                <td><strong>Java</strong></td>
+                <td>4</td>
+                <td><input type="number" id="mid-java" placeholder="0-40" min="0" max="40"></td>
+                <td><input type="number" id="end-java" placeholder="0-60" min="0" max="60"></td>
+            </tr>
+            <tr>
+                <td><strong>OS</strong></td>
+                <td>4</td>
+                <td><input type="number" id="mid-os" placeholder="0-40" min="0" max="40"></td>
+                <td><input type="number" id="end-os" placeholder="0-60" min="0" max="60"></td>
+            </tr>
+            <tr>
+                <td><strong>COMA</strong></td>
+                <td>4</td>
+                <td><input type="number" id="mid-coma" placeholder="0-40" min="0" max="40"></td>
+                <td><input type="number" id="end-coma" placeholder="0-60" min="0" max="60"></td>
+            </tr>
+            <tr>
+                <td><strong>Math</strong></td>
+                <td>4</td>
+                <td><input type="number" id="mid-math" placeholder="0-40" min="0" max="40"></td>
+                <td><input type="number" id="end-math" placeholder="0-60" min="0" max="60"></td>
+            </tr>
+            <tr>
+                <td><strong>FCS</strong></td>
+                <td>2</td>
+                <td><input type="number" id="mid-fcs" placeholder="0-40" min="0" max="40"></td>
+                <td><input type="number" id="end-fcs" placeholder="0-60" min="0" max="60"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button onclick="calculateSGPA()">Calculate Expected SGPA</button>
+
+    <div class="result-box" id="result-box">
+        <h2>Your Expected SGPA</h2>
+        <div class="sgpa-display" id="sgpa-value">0.00</div>
+        <p id="percentage-value" style="margin-top: 5px; color: #475569;"></p>
+    </div>
+
+    <p class="note">Based on Parul University's 10-Point Choice-Based Credit System (CBCS) grading scale.</p>
+</div>
+
+<script>
+function getGradePoint(percentage) {
+    if (percentage >= 90) return 10; // O
+    if (percentage >= 80) return 9;  // A+
+    if (percentage >= 70) return 8;  // A
+    if (percentage >= 60) return 7;  // B+
+    if (percentage >= 50) return 6;  // B
+    if (percentage >= 45) return 5;  // C
+    if (percentage >= 40) return 4;  // P
+    return 0;                        // F
+}
+
+function calculateSGPA() {
+    const subjects = [
+        { id: 'dsa', credits: 4 },
+        { id: 'java', credits: 4 },
+        { id: 'os', credits: 4 },
+        { id: 'coma', credits: 4 },
+        { id: 'math', credits: 4 },
+        { id: 'fcs', credits: 2 }
+    ];
+
+    let totalGradePoints = 0;
+    let totalCredits = 0;
+
+    for (let sub of subjects) {
+        let mid = parseFloat(document.getElementById(`mid-${sub.id}`).value) || 0;
+        let end = parseFloat(document.getElementById(`end-${sub.id}`).value) || 0;
+
+        let totalMarks = mid + end; // Out of 100
+        let gradePoint = getGradePoint(totalMarks);
+
+        totalGradePoints += (gradePoint * sub.credits);
+        totalCredits += sub.credits;
+    }
+
+    let sgpa = (totalGradePoints / totalCredits).toFixed(2);
+    let approxPercentage = (sgpa * 9.5).toFixed(2);
+
+    document.getElementById('sgpa-value').innerText = sgpa;
+    document.getElementById('percentage-value').innerText = `Approximate Percentage: ${approxPercentage}%`;
+    document.getElementById('result-box').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
